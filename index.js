@@ -68,21 +68,25 @@ client.on('interactionCreate', async interaction => {
         if (interaction.commandName === 'setup_verify') {
             const role = interaction.options.getRole('role');
 
+            // ออกแบบ Panel รับยศใหม่ให้สวยปิ๊ง!
             const verifyEmbed = new EmbedBuilder()
-                .setTitle('🛡️ 𝐕𝐄𝐑𝐈𝐅𝐘 & 𝐆𝐄𝐓 𝐑𝐎𝐋𝐄𝐒 🛡️')
-                .setDescription(`ยินดีต้อนรับสู่ **Swift Hub Shop** ค้าบ! 🎉\n\nเพื่อความปลอดภัยและเปิดการมองเห็นห้องแชททั้งหมดในเซิร์ฟเวอร์\nรบกวนสมาชิกกดปุ่มด้านล่างนี้เพื่อยืนยันตัวตนนะครับ 👇\n\n*(เมื่อกดรับยศแล้ว สามารถเข้าไปพูดคุยที่ห้องทั่วไปได้เลยครับผม! ✨)*`)
-                .setColor('#2F3136');
+                .setTitle('✨ 𝐕𝐄𝐑𝐈𝐅𝐘 & 𝐆𝐄𝐓 𝐑𝐎𝐋𝐄𝐒 ✨')
+                .setDescription(`ยินดีต้อนรับสู่ **Swift Hub Shop** ค้าบ! 🎉\n\nเพื่อความปลอดภัยและเปิดการมองเห็นห้องแชททั้งหมดในเซิร์ฟเวอร์\nรบกวนสมาชิกกดปุ่มด้านล่างนี้เพื่อยืนยันตัวตนนะครับ 👇\n\n╭・┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈・╮\n   🔰 **ยศที่คุณจะได้รับ :** <@&${role.id}>\n╰・┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈・╯\n\n*( เมื่อกดรับยศแล้ว สามารถเข้าไปพูดคุยที่ห้องทั่วไปได้เลยครับผม! 🚀 )*`)
+                .setColor(role.color || '#2b2d31') // 🎨 สี Panel เปลี่ยนตามสียศที่เลือก!
+                .setThumbnail(interaction.guild.iconURL({ dynamic: true })) // ดึงรูปโปรไฟล์เซิร์ฟเวอร์มาโชว์มุมขวา
+                .setFooter({ text: 'Swift Hub Shop Auto-System', iconURL: client.user.displayAvatarURL() });
 
+            // สร้างปุ่มกดที่แสดงชื่อยศ
             const verifyButton = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
                     .setCustomId(`verify_${role.id}`)
-                    .setLabel('คลิกเพื่อรับยศ / Verify')
+                    .setLabel(`คลิกเพื่อรับยศ ${role.name}`)
                     .setEmoji('🔓')
                     .setStyle(ButtonStyle.Success)
             );
 
             await interaction.channel.send({ embeds: [verifyEmbed], components: [verifyButton] });
-            await interaction.reply({ content: '✅ สร้างแผงรับยศให้เรียบร้อยแล้วค่ะ!', ephemeral: true });
+            await interaction.reply({ content: '✅ ปายสร้างแผงรับยศให้สวยปิ๊งแล้วค่ะ ซีม่อนลองดูในห้องได้เลย!', ephemeral: true });
         }
 
         // 🏪 คำสั่งที่ 2: /shop_status
